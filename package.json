@@ -10,6 +10,12 @@
     "postbuild-cjs": "npx uglify-js dist/cjs/index.js -m -c -o dist/cjs/index.min.cjs",
     "prepublish": "npm run build && npm run build-cjs"
   },
+  "exports": {
+    ".": {
+      "require": "./dist/cjs/index.min.cjs",
+      "import": "./dist/esm/index.min.mjs"
+    }
+  },
   "peerDependencies": {
     "next": "> =12.3.1",
     "zod": "^3.19.1"
