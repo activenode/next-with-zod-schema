@@ -1,4 +1,9 @@
-# next-with-zod-schema
+# Validate API Requests in NextJS before they reach you
+
+The basis is the validation library [`zod`](https://github.com/colinhacks/zod) .
+
+`withSchema` works both with `GET` and `POST` requests so you don't have to worry about `query` vs `body` params.
+This library detects the mode and will always validate the correct one.
 
 ## Usage
 
