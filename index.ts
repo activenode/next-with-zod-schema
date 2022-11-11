@@ -18,8 +18,6 @@ export const withSchema = <S extends ZodRawShape>(
 
       await handler(req, res, parsedSchema);
     } catch (e) {
-      console.error("@SchemaError", e);
-
       res.status(503).json({
         success: false,
         e: "schema_failed",
