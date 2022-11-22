@@ -8,14 +8,27 @@ export const withSchema = <S extends ZodRawShape>(
     res: NextApiResponse,
     data: z.infer<typeof schema>
   ) => Promise<void>,
-  bodyType: "POST" | "GET" = "POST",
+  bodyType: "POST" | "GET" | "auto" = "auto",
   options: {
     debug?: boolean;
     throwErrors?: boolean;
   } = {}
 ) => {
-  const middleHandler: NextApiHandler = async (req, res) => {
-    const body = bodyType === "POST" ? req.body : req.query;
+  const middleHandler: NextApiHandler = async (req: NextApiRequest, res) => {
+    let actualBodyTypeToUse: "POST" | "GET";
+
+    if (bodyType === "auto") {
+      const tryBodyType = req.method?.toUpperCase();
+      if (tryBodyType === "POST" || tryBodyType === "GET") {
+        actualBodyTypeToUse = tryBodyType;
+      } else {
+        throw new Error("Invalid Method [type=auto]");
+      }
+    } else {
+      actualBodyTypeToUse = bodyType;
+    }
+
+    const body = actualBodyTypeToUse === "POST" ? req.body : req.query;
 
     try {
       const parsedSchema = schema.parse(body);

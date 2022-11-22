@@ -1,6 +1,6 @@
 {
   "name": "next-with-zod-schema",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,13 +17,15 @@
     }
   },
   "peerDependencies": {
-    "next": "> =12.3.1",
+    "next": ">=12.3.1",
     "zod": "^3.19.1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.11.9",
+    "next": "^13.0.4",
     "typescript": "^4.8.4",
     "uglify-js": "^3.17.4"
   }
