@@ -30,6 +30,10 @@ export const withSchema = <S extends ZodRawShape>(
 
     const body = actualBodyTypeToUse === "POST" ? req.body : req.query;
 
+    if (options.debug) {
+      console.log("withSchema BODY =>", body);
+    }
+
     try {
       const parsedSchema = schema.parse(body);
 
