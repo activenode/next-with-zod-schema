@@ -8,7 +8,11 @@ export const withSchema = <S extends ZodRawShape>(
     res: NextApiResponse,
     data: z.infer<typeof schema>
   ) => Promise<void>,
-  bodyType: "POST" | "GET" = "POST"
+  bodyType: "POST" | "GET" = "POST",
+  options: {
+    debug?: boolean;
+    throwErrors?: boolean;
+  } = {}
 ) => {
   const middleHandler: NextApiHandler = async (req, res) => {
     const body = bodyType === "POST" ? req.body : req.query;
@@ -18,9 +22,13 @@ export const withSchema = <S extends ZodRawShape>(
 
       await handler(req, res, parsedSchema);
     } catch (e) {
+      if (options.throwErrors) {
+        throw e;
+      }
+
       res.status(503).json({
         success: false,
-        e: "schema_failed",
+        e: options.debug ? e : "schema_failed",
       });
     }
   };
